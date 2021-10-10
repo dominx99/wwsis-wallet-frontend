@@ -10,11 +10,9 @@ RUN apk add --update --no-cache \
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
+RUN mkdir -p /application
 WORKDIR /application
 
 ENV PATH /application/node_modules/.bin:$PATH
 
 COPY . ./
-
-RUN yarn install --silent
-RUN yarn add react-scripts -g --silent
