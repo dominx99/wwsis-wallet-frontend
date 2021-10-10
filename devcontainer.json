@@ -1,0 +1,5 @@
+{
+  "dockerFile": "./Dockerfile",
+  "workspaceFolder": "/application",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/application,type=bind,consistency=delegated"
+}

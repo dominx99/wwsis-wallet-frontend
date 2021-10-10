@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nodejs:
+    container_name: nodejs
+    entrypoint: "/bin/sh ./docker-entrypoint.sh"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/application
+      - /application/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      wallet:
+        ipv4_address: 10.18.0.5
+
+networks:
+  wallet:
+    external: true
