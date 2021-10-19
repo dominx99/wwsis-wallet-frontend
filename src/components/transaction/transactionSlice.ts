@@ -24,8 +24,6 @@ export const fetchTransactionsAsync = createAsyncThunk(
   async () => {
     const response = await fetchTransactions();
 
-    console.log('response', response)
-
     return response.data;
   }
 );

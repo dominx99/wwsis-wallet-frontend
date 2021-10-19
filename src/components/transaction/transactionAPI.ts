@@ -1,7 +1,6 @@
 import { TransactionType } from './TransactionRow'
 
 export function fetchTransactions() {
-  console.log('test')
   return new Promise<{ data: TransactionType[] }>((resolve) =>
     setTimeout(() => resolve({
       data: [
