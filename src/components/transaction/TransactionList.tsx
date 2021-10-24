@@ -1,7 +1,6 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchTransactions } from "./transactionAPI";
 import TransactionRow from "./TransactionRow";
 import { fetchTransactionsAsync, selectFetchTransactionsLoading, selectTransactions } from "./transactionSlice";
 
@@ -19,7 +18,7 @@ const TransactionList: FC<Props> = () => {
   })
 
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
