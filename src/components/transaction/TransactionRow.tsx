@@ -1,5 +1,6 @@
-import { TableRow, TableCell } from "@mui/material";
+import { TableCell } from "@mui/material";
 import { FC } from "react";
+import { TransactionTableRow } from "./Transaction.styles";
 import TransactionValue from "./TransactionValue";
 
 export type TransactionType = {
@@ -17,7 +18,7 @@ export const isExpense = (transaction: TransactionType) => transaction.type === 
 
 const TransactionRow: FC<Props> = ({ transaction }) => {
   return (
-    <TableRow>
+    <TransactionTableRow>
       <TableCell>{transaction.name}</TableCell>
       <TableCell>
         <TransactionValue
@@ -25,7 +26,7 @@ const TransactionRow: FC<Props> = ({ transaction }) => {
           value={transaction.value}
         ></TransactionValue>
       </TableCell>
-    </TableRow>
+    </TransactionTableRow>
   );
 };
 

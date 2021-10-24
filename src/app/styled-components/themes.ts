@@ -1,7 +1,8 @@
-import { blueGrey, green, red } from "@mui/material/colors";
+import { green, grey, red } from "@mui/material/colors";
 
 export const darkTheme = {
-  background: blueGrey[800],
-  income: green[500],
-  expense: red[500],
-}
+  background: grey[800],
+  income: green.A200,
+  expense: red.A100,
+  dark: grey[900],
+};
