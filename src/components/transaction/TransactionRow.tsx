@@ -1,6 +1,5 @@
 import { TableRow, TableCell } from "@mui/material";
 import { FC } from "react";
-import Money from "../money/Money";
 import TransactionValue from "./TransactionValue";
 
 export type TransactionType = {
