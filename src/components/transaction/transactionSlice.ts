@@ -4,6 +4,11 @@ import { fetchTransactions } from './transactionAPI';
 import { TransactionType } from './TransactionRow';
 
 export interface TransactionState {
+  modal: {
+    add: {
+      opened: boolean,
+    },
+  }
   loading: {
     fetch: boolean
     add: boolean,
@@ -12,6 +17,11 @@ export interface TransactionState {
 }
 
 const initialState: TransactionState = {
+  modal: {
+    add: {
+      opened: false,
+    },
+  },
   loading: {
     fetch: true,
     add: false,
@@ -35,6 +45,12 @@ export const transactionSlice = createSlice({
     add: (state, action: PayloadAction<TransactionType>) => {
       state.transactions.push(action.payload)
     },
+    openAddTransactionModal: (state) => {
+      state.modal.add.opened = true;
+    },
+    closeAddTransactionModal: (state) => {
+      state.modal.add.opened = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -48,9 +64,14 @@ export const transactionSlice = createSlice({
   },
 });
 
-export const { add } = transactionSlice.actions;
+export const {
+  add,
+  openAddTransactionModal,
+  closeAddTransactionModal,
+} = transactionSlice.actions;
 
 export const selectTransactions = (state: RootState) => state.transaction.transactions;
 export const selectFetchTransactionsLoading = (state: RootState) => state.transaction.loading.fetch;
+export const isAddTranscationModalOpened = (state: RootState) => state.transaction.modal.add.opened;
 
 export default transactionSlice.reducer;
