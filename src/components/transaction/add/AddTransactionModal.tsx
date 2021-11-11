@@ -53,7 +53,7 @@ const AddTransactionModal: FC = () => {
             Add transaction
           </Typography>
         </Toolbar>
-        <FormGroup sx={{ width: '100%', height: '100%', margin: 'auto' }}>
+        <FormGroup sx={{ m: 2 }}>
           <FormControl margin={'dense'}>
             <InputLabel id="type-select-label">Type</InputLabel>
             <Select
