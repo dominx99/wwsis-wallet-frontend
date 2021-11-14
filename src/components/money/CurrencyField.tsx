@@ -1,5 +1,5 @@
 import React from "react";
-import NumberFormat from "react-number-format";
+import CurrencyInput from "react-currency-input-field";
 
 interface Props {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -7,31 +7,22 @@ interface Props {
   prefix: string,
 };
 
-const CurrencyField = React.forwardRef<NumberFormat, Props>(
-  function CurrencyField(props, ref) {
+const CurrencyField = React.forwardRef<typeof CurrencyInput, Props>(
+  function CurrencyField(props) {
     const { onChange, ...other } = props;
 
-    const toCurrency = (value: string) => {
-      return value.replace('.', '');
-    };
-
     return (
-      <NumberFormat
+      <CurrencyInput
         {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          console.log(values);
-
+        intlConfig={{ locale: 'pl-PL', currency: 'PLN' }}
+        onValueChange={(value: string | undefined) => {
           onChange({
             target: {
               name: props.name,
-              value: toCurrency(values.value),
+              value: value ? value : '0',
             },
           });
         }}
-        prefix={props.prefix}
-        decimalScale={2}
-        fixedDecimalScale
       />
     );
   },

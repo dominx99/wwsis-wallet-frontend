@@ -79,16 +79,12 @@ const AddTransactionModal: FC = () => {
 
           <TextField
             margin={'dense'}
-            label="Value"
-            value={form.value / 100}
+            value={form.value}
             onChange={handleChange}
             name="value"
             id="value-field"
             InputProps={{
               inputComponent: CurrencyField as any,
-              inputProps: {
-                prefix: 'PLN ',
-              }
             }}
             variant="outlined"
           />

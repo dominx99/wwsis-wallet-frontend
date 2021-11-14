@@ -18,6 +18,7 @@
     "@types/styled-components": "^5.1.15",
     "history": "5",
     "react": "^17.0.2",
+    "react-currency-input-field": "^3.6.0",
     "react-dom": "^17.0.2",
     "react-number-format": "^4.7.3",
     "react-redux": "^7.2.5",
