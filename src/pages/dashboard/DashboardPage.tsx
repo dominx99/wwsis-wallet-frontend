@@ -9,15 +9,17 @@ import TransactionList from "../../components/transaction/TransactionList";
 interface Props {};
 
 const DashboardPage: FC<Props> = () => (
-  <Wrapper>
-    <TransactionSection>
-      <Container>
-        <TransactionList />
-      </Container>
-    </TransactionSection>
+  <>
+    <Wrapper>
+      <TransactionSection>
+        <Container>
+          <TransactionList />
+        </Container>
+      </TransactionSection>
+      <AddTransactionFloatingButton />
+    </Wrapper>
     <AddTransactionModal />
-    <AddTransactionFloatingButton />
-  </Wrapper>
+  </>
 );
 
 export default DashboardPage;

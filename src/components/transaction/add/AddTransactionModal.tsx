@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { AppBar, Dialog, FormControl, FormGroup, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormGroup, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Toolbar, Typography } from "@mui/material";
 import { FC, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import CurrencyField from "../../money/CurrencyField";
@@ -19,8 +19,6 @@ const AddTransactionModal: FC = () => {
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
-
     setForm({
       ...form,
       [event.target.name]: event.target.value,
@@ -38,22 +36,32 @@ const AddTransactionModal: FC = () => {
     <Dialog
       fullScreen
       open={isOpened}
+      color="red"
     >
-      <AppBar sx={{ position: 'relative' }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={() => dispatch(closeAddTransactionModal())}
-            aria-label="close"
-          >
-            <Close />
-          </IconButton>
-          <Typography>
-            Add transaction
-          </Typography>
-        </Toolbar>
-        <FormGroup sx={{ m: 2 }}>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <Typography>
+          Add transaction
+        </Typography>
+        <IconButton
+          aria-label="close"
+          onClick={() => dispatch(closeAddTransactionModal())}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+            marginLeft: 'auto',
+            marginRight: '-10px',
+          }}
+        >
+          <Close />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <FormGroup>
           <FormControl margin={'dense'}>
             <InputLabel id="type-select-label">Type</InputLabel>
             <Select
@@ -61,6 +69,7 @@ const AddTransactionModal: FC = () => {
               id="type-select"
               value={form.type}
               label="Type"
+              name="type"
               onChange={handleSelect}
             >
               <MenuItem value={"income"}>Income</MenuItem>
@@ -89,7 +98,12 @@ const AddTransactionModal: FC = () => {
             variant="outlined"
           />
         </FormGroup>
-      </AppBar>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          variant="outlined"
+        >Save</Button>
+      </DialogActions>
     </Dialog>
   );
 }
