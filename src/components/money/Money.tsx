@@ -6,7 +6,7 @@ interface Props {
 
 const Money: FC<Props> = ({value}) => (
   <>
-    {value / 100}
+    {value / 100} zł
   </>
 );
 

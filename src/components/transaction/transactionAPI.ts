@@ -6,27 +6,27 @@ export function fetchTransactions() {
       data: [
         {
           id: 'some-id-1',
-          name: 'test 1',
+          name: 'Wyjście do kina',
           type: 'expense',
-          value: 15,
+          value: 4150,
         },
         {
           id: 'some-id-2',
-          name: 'test 2',
+          name: 'Wypłata',
           type: 'income',
-          value: 30,
+          value: 373000,
         },
         {
           id: 'some-id-3',
-          name: 'test 3',
+          name: 'Zakupy',
           type: 'expense',
-          value: 15,
+          value: 15248,
         },
         {
           id: 'some-id-4',
-          name: 'test 4',
+          name: 'Zwrot',
           type: 'income',
-          value: 30,
+          value: 300,
         },
       ]
     }), 50)

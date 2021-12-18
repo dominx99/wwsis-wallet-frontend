@@ -1,5 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormGroup, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Toolbar, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormGroup, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { FC, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import CurrencyField from "../../money/CurrencyField";
@@ -82,6 +82,7 @@ const AddTransactionModal: FC = () => {
             id="name-field"
             name="name"
             label="Name"
+            autoComplete={"off"}
             variant="outlined"
             onChange={handleChange}
           />
@@ -101,6 +102,7 @@ const AddTransactionModal: FC = () => {
       </DialogContent>
       <DialogActions>
         <Button
+          onClick={() => dispatch(closeAddTransactionModal())}
           variant="outlined"
         >Save</Button>
       </DialogActions>

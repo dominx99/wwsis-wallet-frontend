@@ -11,10 +11,14 @@ services:
       - .:/application
     environment:
       - CHOKIDAR_USEPOLLING=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wallet.rule=Host(`wallet.proxy.local`)"
+      - "traefik.http.routers.wallet.entrypoints=web"
     networks:
-      wallet:
-        ipv4_address: 10.18.0.5
+      proxy:
+        ipv4_address: 10.200.0.4
 
 networks:
-  wallet:
+  proxy:
     external: true
