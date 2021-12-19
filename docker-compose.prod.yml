@@ -15,6 +15,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.wallet.rule=Host(`wallet.chylo.pl`)"
       - "traefik.http.routers.wallet.entrypoints=web"
+      - "traefik.docker.network=proxy"
+    expose:
+      - 80
     networks:
       proxy:
         ipv4_address: 10.200.0.4
