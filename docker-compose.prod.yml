@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 services:
   nodejs:
@@ -13,7 +13,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wallet.rule=Host(`wallet.proxy.local`)"
+      - "traefik.http.routers.wallet.rule=Host(`wallet.chylo.pl`)"
       - "traefik.http.routers.wallet.entrypoints=web"
     networks:
       proxy:
