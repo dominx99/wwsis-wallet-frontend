@@ -13,7 +13,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wallet.rule=Host(`wallet.local`)"
+      - traefik.http.routers.wallet.rule=Host(`${DOMAIN}`)
       - "traefik.http.routers.wallet.entrypoints=web"
       - "traefik.docker.network=proxy"
     expose:
