@@ -6,5 +6,3 @@ WORKDIR /application
 ENV PATH /application/node_modules/.bin:$PATH
 
 COPY . ./
-
-EXPOSE 80

@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.wallet.entrypoints=web"
       - "traefik.docker.network=proxy"
     expose:
-      - 80
+      - 8090
     networks:
       proxy:
         ipv4_address: 10.200.0.4
