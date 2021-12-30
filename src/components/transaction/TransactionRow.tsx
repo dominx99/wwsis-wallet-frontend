@@ -3,11 +3,14 @@ import { FC } from "react";
 import { TransactionTableRow } from "./Transaction.styles";
 import TransactionValue from "./TransactionValue";
 
-export type TransactionType = {
-  id: String,
+export type TransactionFormType = {
   name: String,
   type: "income" | "expense",
   value: number,
+}
+
+export type TransactionType = TransactionFormType & {
+  id: String,
 };
 
 interface Props {

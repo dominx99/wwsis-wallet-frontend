@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { fetchTransactions } from './transactionAPI';
-import { TransactionType } from './TransactionRow';
+import { addTransaction, fetchTransactions } from './transactionAPI';
+import { TransactionFormType, TransactionType } from './TransactionRow';
 
 export interface TransactionState {
   modal: {
@@ -38,13 +38,19 @@ export const fetchTransactionsAsync = createAsyncThunk(
   }
 );
 
+export const addTransactionAsync = createAsyncThunk(
+  'transaction/add',
+  async (transaction: TransactionFormType) => {
+    const response = await addTransaction(transaction);
+
+    return response.data;
+  }
+);
+
 export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<TransactionType>) => {
-      state.transactions.push(action.payload)
-    },
     openAddTransactionModal: (state) => {
       state.modal.add.opened = true;
     },
@@ -60,12 +66,17 @@ export const transactionSlice = createSlice({
       .addCase(fetchTransactionsAsync.fulfilled, (state, action) => {
         state.loading.fetch = false;
         state.transactions = action.payload;
-      });
+      })
+      .addCase(addTransactionAsync.fulfilled, (state, action) => {
+        let transactions = state.transactions;
+
+        transactions.push(action.payload);
+      })
+    ;
   },
 });
 
 export const {
-  add,
   openAddTransactionModal,
   closeAddTransactionModal,
 } = transactionSlice.actions;

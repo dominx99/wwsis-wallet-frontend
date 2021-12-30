@@ -3,16 +3,14 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 import { FC, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import CurrencyField from "../../money/CurrencyField";
-import { TransactionType } from "../TransactionRow";
-import { closeAddTransactionModal, isAddTranscationModalOpened } from "../transactionSlice";
-
-interface State extends Omit<TransactionType, "id"> {}
+import { TransactionFormType } from "../TransactionRow";
+import { addTransactionAsync, closeAddTransactionModal, isAddTranscationModalOpened } from "../transactionSlice";
 
 const AddTransactionModal: FC = () => {
   const dispatch = useAppDispatch();
   const isOpened = useAppSelector(isAddTranscationModalOpened);
 
-  const [form, setForm] = useState<State>({
+  const [form, setForm] = useState<TransactionFormType>({
     type: "income",
     name: '',
     value: 0,
@@ -31,6 +29,29 @@ const AddTransactionModal: FC = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  const clearForm = () => {
+    setForm(form => ({
+      ...form,
+      name: '',
+      type: 'income',
+      value: 0,
+    }));
+  }
+
+  const removeCommaFromValue = (value: number) => {
+    return parseInt(value.toString().replace(',', ''));
+  }
+
+  const handleAddTransaction = async () => {
+    let transformedForm = form;
+    transformedForm.value = removeCommaFromValue(form.value);
+
+    await dispatch(addTransactionAsync(transformedForm));
+
+    clearForm();
+    dispatch(closeAddTransactionModal());
+  }
 
   return (
     <Dialog
@@ -102,7 +123,7 @@ const AddTransactionModal: FC = () => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => dispatch(closeAddTransactionModal())}
+          onClick={handleAddTransaction}
           variant="outlined"
         >Save</Button>
       </DialogActions>
