@@ -4,7 +4,7 @@ import { Value } from "./TransactionValue.styles";
 
 interface Props {
   type: string,
-  value: number,
+  value: string,
 };
 
 const TransactionValue: FC<Props> = ({ type, value }) => {

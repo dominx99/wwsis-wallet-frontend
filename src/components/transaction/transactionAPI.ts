@@ -1,4 +1,4 @@
-import { TransactionFormType, TransactionType } from './TransactionRow'
+import { TransactionType } from './TransactionRow'
 import axios from 'axios';
 
 export function fetchTransactions() {
@@ -9,9 +9,17 @@ export function fetchTransactions() {
   });
 }
 
-export function addTransaction(transaction: TransactionFormType) {
+export function addTransaction(transaction: TransactionType) {
   return new Promise<{ data: TransactionType }>(async (resolve) => {
     const res = await axios.post('api/transactions', transaction);
+
+    resolve(res);
+  })
+}
+
+export function updateTransaction(transaction: TransactionType) {
+  return new Promise<{ data: TransactionType }>(async (resolve) => {
+    const res = await axios.put(`api/transactions/${transaction.id}`, transaction);
 
     resolve(res);
   })

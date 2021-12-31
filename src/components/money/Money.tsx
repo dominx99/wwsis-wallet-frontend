@@ -1,12 +1,12 @@
 import { FC } from "react";
 
 interface Props {
-  value: number,
+  value: string,
 };
 
 const Money: FC<Props> = ({value}) => (
   <>
-    {value / 100} zł
+    {parseInt(value) / 100} zł
   </>
 );
 

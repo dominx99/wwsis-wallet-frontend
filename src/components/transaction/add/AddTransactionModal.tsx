@@ -1,20 +1,28 @@
 import { Close } from "@mui/icons-material";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormGroup, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import CurrencyField from "../../money/CurrencyField";
-import { TransactionFormType } from "../TransactionRow";
-import { addTransactionAsync, closeAddTransactionModal, isAddTranscationModalOpened } from "../transactionSlice";
+import { TransactionType } from "../TransactionRow";
+import { addTransactionAsync, cleanTransactionForm, clearTransactionForm, closeAddTransactionModal, isAddTranscationModalOpened, transactionForm, updateTransactionAsync } from "../transactionSlice";
 
 const AddTransactionModal: FC = () => {
   const dispatch = useAppDispatch();
   const isOpened = useAppSelector(isAddTranscationModalOpened);
+  const initialForm = useAppSelector(transactionForm);
 
-  const [form, setForm] = useState<TransactionFormType>({
+  const [form, setForm] = useState<TransactionType>({
+    id: null,
     type: "income",
     name: '',
-    value: 0,
+    value: "0",
   });
+
+  useEffect(() => {
+    if (isOpened) {
+      setForm(initialForm);
+    }
+  }, [isOpened]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
@@ -30,16 +38,7 @@ const AddTransactionModal: FC = () => {
     });
   };
 
-  const clearForm = () => {
-    setForm(form => ({
-      ...form,
-      name: '',
-      type: 'income',
-      value: 0,
-    }));
-  }
-
-  const removeCommaFromValue = (value: number) => {
+  const removeCommaFromValue = (value: string) => {
     let valueSplitted = value.toString().split(',');
     let result = 0;
 
@@ -59,16 +58,20 @@ const AddTransactionModal: FC = () => {
       }
     }
 
-    return result;
+    return result.toString();
   }
 
-  const handleAddTransaction = async () => {
-    let transformedForm = form;
+  const handleSubmitTransactionForm = async () => {
+    let transformedForm = Object.assign({}, form);
     transformedForm.value = removeCommaFromValue(form.value);
 
-    await dispatch(addTransactionAsync(transformedForm));
+    if (transformedForm.id === null) {
+      await dispatch(addTransactionAsync(transformedForm));
+    } else {
+      await dispatch(updateTransactionAsync(transformedForm));
+    }
 
-    clearForm();
+    dispatch(clearTransactionForm());
     dispatch(closeAddTransactionModal());
   }
 
@@ -119,6 +122,7 @@ const AddTransactionModal: FC = () => {
 
           <TextField
             margin={'dense'}
+            value={form.name}
             id="name-field"
             name="name"
             label="Name"
@@ -142,7 +146,7 @@ const AddTransactionModal: FC = () => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={handleAddTransaction}
+          onClick={handleSubmitTransactionForm}
           variant="outlined"
         >Save</Button>
       </DialogActions>

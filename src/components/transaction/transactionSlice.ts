@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { addTransaction, fetchTransactions, removeTransaction } from './transactionAPI';
-import { TransactionFormType, TransactionType } from './TransactionRow';
+import { addTransaction, fetchTransactions, removeTransaction, updateTransaction } from './transactionAPI';
+import { TransactionType } from './TransactionRow';
+
+export interface UpdateTransactionForm {
+  payload: TransactionType,
+}
 
 export interface TransactionState {
+  form: TransactionType,
   modal: {
     add: {
       opened: boolean,
@@ -16,7 +21,15 @@ export interface TransactionState {
   transactions: TransactionType[],
 }
 
+export const cleanTransactionForm = (): TransactionType => ({
+  id: null,
+  type: "income",
+  name: '',
+  value: "0",
+})
+
 const initialState: TransactionState = {
+  form: cleanTransactionForm(),
   modal: {
     add: {
       opened: false,
@@ -40,8 +53,17 @@ export const fetchTransactionsAsync = createAsyncThunk(
 
 export const addTransactionAsync = createAsyncThunk(
   'transaction/add',
-  async (transaction: TransactionFormType) => {
+  async (transaction: TransactionType) => {
     const response = await addTransaction(transaction);
+
+    return response.data;
+  }
+);
+
+export const updateTransactionAsync = createAsyncThunk(
+  'transaction/update',
+  async (transaction: TransactionType) => {
+    const response = await updateTransaction(transaction);
 
     return response.data;
   }
@@ -66,6 +88,12 @@ export const transactionSlice = createSlice({
     closeAddTransactionModal: (state) => {
       state.modal.add.opened = false;
     },
+    updateTransactionForm: (state, { payload }: UpdateTransactionForm) => {
+      state.form = payload;
+    },
+    clearTransactionForm: (state) => {
+      state.form = cleanTransactionForm();
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -80,6 +108,15 @@ export const transactionSlice = createSlice({
         let transactions = state.transactions;
 
         transactions.push(action.payload);
+      })
+      .addCase(updateTransactionAsync.fulfilled, (state, action) => {
+        let transactionIndex = state.transactions.findIndex((transaction: TransactionType) => transaction.id === action.payload.id);
+
+        if (transactionIndex === -1) {
+          return;
+        }
+
+        state.transactions[transactionIndex] = action.payload;
       })
       .addCase(removeTransactionAsync.fulfilled, (state, action) => {
         let transactionIndex = state.transactions.findIndex((transaction: TransactionType) => transaction.id === action.payload);
@@ -97,10 +134,13 @@ export const transactionSlice = createSlice({
 export const {
   openAddTransactionModal,
   closeAddTransactionModal,
+  updateTransactionForm,
+  clearTransactionForm,
 } = transactionSlice.actions;
 
 export const selectTransactions = (state: RootState) => state.transaction.transactions;
 export const selectFetchTransactionsLoading = (state: RootState) => state.transaction.loading.fetch;
 export const isAddTranscationModalOpened = (state: RootState) => state.transaction.modal.add.opened;
+export const transactionForm = (state: RootState) => state.transaction.form;
 
 export default transactionSlice.reducer;
