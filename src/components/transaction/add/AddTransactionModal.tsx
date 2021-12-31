@@ -40,7 +40,26 @@ const AddTransactionModal: FC = () => {
   }
 
   const removeCommaFromValue = (value: number) => {
-    return parseInt(value.toString().replace(',', ''));
+    let valueSplitted = value.toString().split(',');
+    let result = 0;
+
+    if (typeof valueSplitted[1] === "undefined") {
+      result = parseInt(valueSplitted[0]) * 100;
+    }
+
+    if (typeof valueSplitted[1] !== "undefined") {
+      result = parseInt(valueSplitted[0] + valueSplitted[1]);
+
+      if (valueSplitted[1].length === 1) {
+        result *= 10;
+      }
+
+      if (valueSplitted[1].length === 0) {
+        result *= 100;
+      }
+    }
+
+    return result;
   }
 
   const handleAddTransaction = async () => {

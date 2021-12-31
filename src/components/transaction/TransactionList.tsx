@@ -24,6 +24,7 @@ const TransactionList: FC<Props> = () => {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Value</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

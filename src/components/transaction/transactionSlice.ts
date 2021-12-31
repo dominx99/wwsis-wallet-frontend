@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { addTransaction, fetchTransactions } from './transactionAPI';
+import { addTransaction, fetchTransactions, removeTransaction } from './transactionAPI';
 import { TransactionFormType, TransactionType } from './TransactionRow';
 
 export interface TransactionState {
@@ -47,6 +47,15 @@ export const addTransactionAsync = createAsyncThunk(
   }
 );
 
+export const removeTransactionAsync = createAsyncThunk(
+  'transaction/remove',
+  async (transactionId: number) => {
+    await removeTransaction(transactionId);
+
+    return transactionId;
+  }
+)
+
 export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
@@ -71,6 +80,15 @@ export const transactionSlice = createSlice({
         let transactions = state.transactions;
 
         transactions.push(action.payload);
+      })
+      .addCase(removeTransactionAsync.fulfilled, (state, action) => {
+        let transactionIndex = state.transactions.findIndex((transaction: TransactionType) => transaction.id === action.payload);
+
+        if (transactionIndex === -1) {
+          return;
+        }
+
+        state.transactions.splice(transactionIndex, 1);
       })
     ;
   },

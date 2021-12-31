@@ -16,3 +16,11 @@ export function addTransaction(transaction: TransactionFormType) {
     resolve(res);
   })
 }
+
+export function removeTransaction(transactionId: number) {
+  return new Promise<{ data: TransactionType }>(async (resolve) => {
+    const res = await axios.delete(`api/transactions/${transactionId}`);
+
+    resolve(res);
+  })
+}
