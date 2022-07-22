@@ -17,6 +17,7 @@ services:
       - traefik.http.routers.wallet.rule=Host(`${DOMAIN}`)
       - "traefik.http.routers.wallet.entrypoints=web"
       - "traefik.docker.network=proxy"
+      - "traefik.http.routers.wallet.tls.certresolver=lets_encrypt_resolver"
     expose:
       - 8090
     networks:
